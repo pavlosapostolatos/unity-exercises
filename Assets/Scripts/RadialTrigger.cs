@@ -29,6 +29,9 @@ public class RadialTrigger : MonoBehaviour
         bool inInside = dist < radius;
         Gizmos.color = inInside ? Color.green : Color.red;
         Gizmos.DrawWireSphere(origin, radius);
+        if(inInside) {
+            Gizmos.DrawLine(objPos, origin);
+        }
     }
 
 
