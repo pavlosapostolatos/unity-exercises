@@ -37,9 +37,9 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\vectorthing.cs" />
-     <Compile Include="Assets\Scripts\RadialTrigger.cs" />
-     <Compile Include="Assets\Scenes\WorldLocal.cs" />
      <Compile Include="Assets\Scripts\LookAtTrigger.cs" />
+     <Compile Include="Assets\Scripts\RadialTrigger.cs" />
+     <Compile Include="Assets\Scripts\WorldLocal.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.22f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
