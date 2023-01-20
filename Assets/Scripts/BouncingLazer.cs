@@ -19,21 +19,34 @@ public class BouncingLazer : MonoBehaviour
 
         for (int i = 0; i < maxBounces; i++)
         {
+            Gizmos.color = Color.red;
             Ray ray = new Ray(LazerPosition, LazerDirection);
 
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                Gizmos.DrawLine(LazerPosition, hit.point);
+                Gizmos.DrawLine(LazerPosition + LazerDirection, hit.point);
                 Gizmos.DrawSphere(hit.point, 0.1f);
+                Debug.Log(LazerDirection);
 
-                LazerDirection = Vector2.Reflect(LazerDirection, hit.normal);
+                LazerDirection = myReflect(LazerDirection, hit.normal);
                 LazerPosition = hit.point;
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(hit.point,hit.point + hit.normal);
+                Gizmos.color = Color.blue;
+                Gizmos.DrawLine(hit.point, (Vector2)hit.point + LazerDirection);
+                Debug.Log(hit.normal);
+                Debug.Log(LazerDirection);
             }
             else
             {
                 break;
             }
         }
-
+    }
+    
+    private Vector2 myReflect(Vector2 direction,Vector2 normal)
+    {
+        Vector2 VectorProjection_withOppositeDirection = normal.normalized * Vector2.Dot(-direction,normal.normalized); //name is shitty because that's how i drew it lmao
+        return direction + 2 * VectorProjection_withOppositeDirection;
     }
 }
