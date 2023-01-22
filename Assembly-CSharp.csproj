@@ -43,6 +43,7 @@
      <Compile Include="Assets\Scripts\transformDirection.cs" />
      <Compile Include="Assets\Scripts\BouncingLazer.cs" />
      <Compile Include="Assets\Scripts\Turret.cs" />
+     <Compile Include="Assets\Scripts\MeshSurfaceArea.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.22f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
