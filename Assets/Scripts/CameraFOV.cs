@@ -19,7 +19,9 @@ public class CameraFOV : MonoBehaviour
             Gizmos.DrawWireSphere(point.position, radius);
             Vector3 relPos = cam.transform.InverseTransformPoint(point.position);
             maxAngle = MaxAngleIn2dSpace(cam, maxAngle,relPos);
+            Debug.Log("first: " + maxAngle);
             maxAngle = MaxAngleIn2dSpace(cam, maxAngle,new Vector2(relPos.z,relPos.y));
+            Debug.Log("second: " + maxAngle);
         }
 
         Gizmos.color = Color.red;
