@@ -18,7 +18,7 @@ public class CameraFOV : MonoBehaviour
         {
             Gizmos.DrawWireSphere(point.position,radius);
             
-            Vector2 relPos = point.position - cam.transform.position;
+            Vector2 relPos = cam.transform.InverseTransformPoint(point.position);
 
             float opposite = Mathf.Abs(relPos.y);
             float adjacent = relPos.x;

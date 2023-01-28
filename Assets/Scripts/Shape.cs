@@ -28,7 +28,7 @@ public class Shape : MonoBehaviour
 
         for (int i = 0; i < n; i++)
         {
-            Gizmos.DrawLine(posOnShape(array[i]), posOnShape(array[(i + 1) % n]));
+            Gizmos.DrawLine(posOnShape(array[i]), posOnShape(array[(i + d) % n]));
         }
     }
 }
