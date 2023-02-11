@@ -23,11 +23,12 @@ public class Coil : MonoBehaviour
 
         Vector3 prevPoint = Vector3.right;
         Vector3 nextPoint;
+        float colorIndex = 0;
         for (int spin = 0; spin < spins; spin++)
         {
             Gizmos.color = Color.magenta;
             Gizmos.DrawSphere(Vector3.right * radius + Vector3.up * height * spin, 0.3f); //signify start of new spin
-            for (int i = 0; i < detail; i++)
+            for (int i = 0; i < detail; i++,colorIndex++)
             {
                 if (i < detail / 2)
                     nextPoint = radius * Vector3.Slerp(Vector3.right, firstCheckPoint, (2f * i) / detail);
@@ -37,7 +38,7 @@ public class Coil : MonoBehaviour
                         1f - ((i - detail / 2f) / (detail / 2f)));
                 }
 
-                Gizmos.color = Color.white;
+                Gizmos.color = Color.Lerp(Color.red,Color.blue,colorIndex /  (detail * spins));
                 nextPoint.y = spin * height + (float)i / detail * height;
                 Gizmos.DrawLine(prevPoint, nextPoint);
                 prevPoint = nextPoint;
