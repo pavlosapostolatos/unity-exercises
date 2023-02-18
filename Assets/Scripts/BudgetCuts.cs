@@ -16,6 +16,9 @@ public class BudgetCuts : MonoBehaviour
     private float spaceLeft;
     private float spaceRight;
 
+    private Item latestLeft;
+    private Item latestRight;
+
     public Vector2 AngToDir(float dir) => new Vector2(Mathf.Cos(dir), Mathf.Sin(dir));
 
     private void OnDrawGizmos()
@@ -38,31 +41,48 @@ public class BudgetCuts : MonoBehaviour
         Item[] items = new Item[itemCount];
         for (int i = 0; i < itemCount; i++)
         {
-            items[i] = new Item(default, 1f);
-            double angle = Math.Asin((double)items[i].Radius / arcRadius);
+            items[i] = new Item(default, i+1);
+            // double angle = Math.Asin((double)items[i].Radius / arcRadius);
+            double angle;
             double dir = 90 * Mathf.Deg2Rad;
             if (i == 0)
             {
+                angle = Math.Acos((Math.Pow(arcRadius, 2f) + Math.Pow(arcRadius, 2f) - Math.Pow(items[i].Radius, 2f)) 
+                                         / (2*arcRadius*arcRadius));
+                angle = Math.Acos(1f - Math.Pow(items[i].Radius, 2f)
+                    / (2*arcRadius*arcRadius));
                 spaceRight += (float)angle;
                 freeSpaceRight -= (float)angle;
                 spaceLeft += (float)angle;
                 freeSpaceLeft -= (float)angle;
+                latestLeft = items[i];
+                latestRight = items[i];
             }
             else if (freeSpaceLeft < freeSpaceRight)
             {
                 //draw right
+                angle = Math.Acos((Math.Pow(arcRadius, 2f) + Math.Pow(arcRadius, 2f) - Math.Pow(items[i].Radius + latestRight.Radius, 2f)) 
+                                         / (2*arcRadius*arcRadius));
+                angle = Math.Acos(1f - Math.Pow(items[i].Radius, 2f)
+                                  / (2*arcRadius*arcRadius));
                 double offset = spaceRight;
                 dir -= (offset + angle);
                 spaceRight += 2* (float)angle;
                 freeSpaceRight -= 2*(float)angle;
+                latestRight = items[i];
             }
             else
             {
                 //draw left
+                angle = Math.Acos((Math.Pow(arcRadius, 2f) + Math.Pow(arcRadius, 2f) - Math.Pow(items[i].Radius + latestLeft.Radius, 2f)) 
+                                         / (2*arcRadius*arcRadius));
+                angle = Math.Acos(1f - Math.Pow(items[i].Radius, 2f)
+                    / (2*arcRadius*arcRadius));
                 double offset = spaceLeft;
                 dir += (offset + angle);
                 spaceLeft += 2*(float)angle;
                 freeSpaceLeft -= 2*(float)angle;
+                latestLeft = items[i];
             }
 
             Vector2 posOnArc = AngToDir((float)dir) * arcRadius;
@@ -74,25 +94,14 @@ public class BudgetCuts : MonoBehaviour
 
     class Item
     {
-        private Vector2 position;
-        private float radius;
-
         public Item(Vector2 position, float radius)
         {
-            this.position = position;
-            this.radius = radius;
+            Position = position;
+            Radius = radius;
         }
 
-        public Vector2 Position
-        {
-            get => position;
-            set => position = value;
-        }
+        public Vector2 Position { get; set; }
 
-        public float Radius
-        {
-            get => radius;
-            set => radius = value;
-        }
+        public float Radius { get; set; }
     }
 }

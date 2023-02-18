@@ -247,7 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arcRadius: 8
   arcAngle: 60
-  itemCount: 12
+  itemCount: 6
 --- !u!4 &408022929
 Transform:
   m_ObjectHideFlags: 0
