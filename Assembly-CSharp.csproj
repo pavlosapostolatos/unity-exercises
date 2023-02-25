@@ -42,13 +42,14 @@
      <Compile Include="Assets\Scripts\RadialTrigger.cs" />
      <Compile Include="Assets\Scripts\WorldLocal.cs" />
      <Compile Include="Assets\Scripts\transformDirection.cs" />
+     <Compile Include="Assets\Scripts\BudgetCuts.cs" />
      <Compile Include="Assets\Scripts\Coil.cs" />
      <Compile Include="Assets\Scripts\CameraFOV.cs" />
      <Compile Include="Assets\Scripts\Turret.cs" />
      <Compile Include="Assets\Scripts\Shape.cs" />
      <Compile Include="Assets\Scripts\BouncingLazer.cs" />
      <Compile Include="Assets\Scripts\Clock.cs" />
-     <Compile Include="Assets\Scripts\BudgetCuts.cs" />
+     <Compile Include="Assets\Scripts\FinalAssignments\MeshFromBezier.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.22f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
