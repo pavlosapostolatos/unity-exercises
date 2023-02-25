@@ -16,11 +16,24 @@ public class MeshFromBezier : MonoBehaviour
 
         Vector3[] bezierPoints = new Vector3[detail];
         Vector3[] bezierTangents = new Vector3[detail];
+        Vector3[] bezierNormals = new Vector3[detail];
+        Vector3[] bezierBinormals = new Vector3[detail];
         for (int t = 0; t < detail; t++)
         {
             Tuple<Vector3, Vector3> tuple = getBezierPoint(points, t);
             bezierPoints[t] = tuple.Item1;
-            bezierTangents[t] = tuple.Item2;
+            bezierTangents[t] = tuple.Item2.normalized;
+            bezierNormals[t] = new Vector3(- bezierTangents[t].y,bezierTangents[t].x);
+            bezierBinormals[t] = Vector3.Cross(bezierTangents[t],bezierNormals[t]);
+            if (t % 10 == 0)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawRay(bezierPoints[t], bezierTangents[t]);
+                Gizmos.color = Color.green;
+                Gizmos.DrawRay(bezierPoints[t], bezierNormals[t]);
+                Gizmos.color = Color.blue;
+                Gizmos.DrawRay(bezierPoints[t], bezierBinormals[t]);
+            }
         }
 
         Handles.DrawAAPolyLine(bezierPoints);
