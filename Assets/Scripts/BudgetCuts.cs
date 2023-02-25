@@ -9,6 +9,8 @@ public class BudgetCuts : MonoBehaviour
     public float arcRadius = 3;
     public float arcAngle = 60;
     public int itemCount = 3;
+    
+    public Item[] items;
 
     private float freeSpaceLeft;
     private float freeSpaceRight;
@@ -35,11 +37,11 @@ public class BudgetCuts : MonoBehaviour
 
         float arcCircumference = 2 * arcRadius * Mathf.PI * arcAngle / 360;
 
-        Item[] items = new Item[itemCount];
+        // Item[] items = new Item[itemCount];
         for (int i = 0; i < itemCount; i++)
         {
-            items[i] = new Item(default, 1f);
-            double angle = Math.Asin((double)items[i].Radius / arcRadius);
+            // items[i] = new Item(default, i+1);
+            double angle = Math.Asin((double)items[i].radius / arcRadius);
             double dir = 90 * Mathf.Deg2Rad;
             if (i == 0)
             {
@@ -67,32 +69,23 @@ public class BudgetCuts : MonoBehaviour
 
             Vector2 posOnArc = AngToDir((float)dir) * arcRadius;
             Debug.Log(posOnArc);
-            items[i].Position = posOnArc;
-            Gizmos.DrawWireSphere(posOnArc, items[i].Radius);
+            items[i].transform.position = posOnArc;
+            items[i].transform.rotation = Quaternion.Euler(0, 0, (float)dir * Mathf.Rad2Deg - 90);
+            Gizmos.DrawWireSphere(posOnArc, items[i].radius);
         }
     }
 
-    class Item
+    [Serializable]
+    public class Item
     {
-        private Vector2 position;
-        private float radius;
 
-        public Item(Vector2 position, float radius)
+        public Transform transform;
+        public float radius;
+        
+        public Item(Transform transform, float radius)
         {
-            this.position = position;
+            this.transform = transform;
             this.radius = radius;
-        }
-
-        public Vector2 Position
-        {
-            get => position;
-            set => position = value;
-        }
-
-        public float Radius
-        {
-            get => radius;
-            set => radius = value;
         }
     }
 }
