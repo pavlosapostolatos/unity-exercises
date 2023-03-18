@@ -14,16 +14,17 @@ Shader "Unlit/Shader1"
         // subshader tags
         Tags
         {
-            "RenderType"="Transparent" // tag to inform the render pipeline of what type this is
-            "Queue"="Transparent" // changes the render order
+            "RenderType"="Opaque" // tag to inform the render pipeline of what type this is
+//            "Queue"="Transparent" // changes the render order
         }
         Pass
         {
             // pass tags
 
-            Cull Off
-            ZWrite Off
-            Blend One One // additive
+//            Cull Off
+//            ZWrite Off
+//            Blend One One // additive
+//            Blend SrcAlpha OneMinusSrcAlpha // alpha blend
 
 
 
@@ -83,10 +84,13 @@ Shader "Unlit/Shader1"
             float4 frag(Interpolators i) : SV_Target
             {
                 float threshold = InverseLerp(0.2,0.8,_Health);
-                float4 clampedThreshold = clamp(threshold, 0, 1);
-                float4 blackOrWhite = i.uv.x < _Health;
-                float4 healthColor = lerp(float4(1, 0, 0, 0), float4(0, 1, 0, 0), clampedThreshold);
-                return lerp(float4(0,0,0,0), healthColor, blackOrWhite);
+                float3 clampedThreshold = clamp(threshold, 0, 1);
+                float3 blackOrWhite = i.uv.x < _Health;
+                clip(blackOrWhite - 0.00001f);
+                float3 healthColor = lerp(float4(1, 0, 0, 0), float4(0, 1, 0, 0), clampedThreshold);
+                float3 ret =  lerp(float4(0,0,0,0), healthColor, blackOrWhite);
+                // clip(ret - 0.00001f);
+                return float4(ret,1);
             }
             ENDCG
         }
