@@ -44,13 +44,13 @@
      <Compile Include="Assets\Scripts\MeshSurfaceArea.cs" />
      <Compile Include="Assets\Scripts\vectorthing.cs" />
      <Compile Include="Assets\Scripts\LookAtTrigger.cs" />
-     <Compile Include="Assets\Scripts\FinalAssignments\Movement.cs" />
      <Compile Include="Assets\Scripts\FinalAssignments\MeshFromBezier.cs" />
      <Compile Include="Assets\Scripts\BudgetCuts.cs" />
      <Compile Include="Assets\Scripts\Coil.cs" />
      <Compile Include="Assets\Scripts\CameraFOV.cs" />
      <Compile Include="Assets\Scripts\Turret.cs" />
      <Compile Include="Assets\Scripts\Shape.cs" />
+     <Compile Include="Assets\Scripts\FinalAssignments\Movement.cs" />
      <None Include="Assets\Shader Course\Shaders &amp; Materials\Lecture 2\Healthbar.shader" />
      <None Include="Assets\Shader Course\Shaders &amp; Materials\Lecture 1\Shader FX Waves.shader" />
      <None Include="Assets\Shader Course\Shaders &amp; Materials\Lecture 1\Textured.shader" />
