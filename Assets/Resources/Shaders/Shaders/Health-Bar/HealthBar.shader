@@ -103,7 +103,10 @@ Shader "Unlit/HealthBar"
                 float4 clampedThreshold = clamp(threshold, 0, 1);
                 float4 blackOrWhite = i.uv2.x < _Health;
                 clip(blackOrWhite - 0.00001f);
-                float4 textureColor = tex2D(_MainTex, i.uv);
+                float4 healthbarTextureColorCoordinate =  lerp(float4(0, 0, 0, 0), float4(1, 0, 0, 0), _Health);
+                healthbarTextureColorCoordinate.y = i.uv2.y; //keep glossiness
+                float4 textureColor = tex2D(_MainTex, healthbarTextureColorCoordinate);
+                textureColor = tex2D(_MainTex,float2(_Health, i.uv2.y));//easier
                 return lerp(float4(0, 0, 0, 0), textureColor, blackOrWhite);
             }
             ENDCG
