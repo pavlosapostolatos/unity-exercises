@@ -1,4 +1,4 @@
-Shader "Unlit/Shader1"
+Shader "Unlit/HealthBar"
 {
     Properties
     {
@@ -8,6 +8,7 @@ Shader "Unlit/Shader1"
         _ColorStart ("Color Start", Range(0,1) ) = 0
         _ColorEnd ("Color End", Range(0,1) ) = 1
         _Health ("Health", Range(0,1) ) = 0.2
+        _MainTex ("Main Texture", 2D) = "white" {}
     }
     SubShader
     {
@@ -15,16 +16,16 @@ Shader "Unlit/Shader1"
         Tags
         {
             "RenderType"="Opaque" // tag to inform the render pipeline of what type this is
-//            "Queue"="Transparent" // changes the render order
+            //            "Queue"="Transparent" // changes the render order
         }
         Pass
         {
             // pass tags
 
-//            Cull Off
-//            ZWrite Off
-//            Blend One One // additive
-//            Blend SrcAlpha OneMinusSrcAlpha // alpha blend
+            //            Cull Off
+            //            ZWrite Off
+            //            Blend One One // additive
+            //            Blend SrcAlpha OneMinusSrcAlpha // alpha blend
 
 
 
@@ -43,6 +44,10 @@ Shader "Unlit/Shader1"
             float _ColorStart;
             float _ColorEnd;
             float _Health;
+
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+
 
             // automatically filled out by Unity
             struct MeshData
@@ -65,6 +70,7 @@ Shader "Unlit/Shader1"
                 float4 vertex : SV_POSITION; // clip space position
                 float3 normal : TEXCOORD0;
                 float2 uv : TEXCOORD1;
+                float2 uv2 : TEXCOORD2;
             };
 
             Interpolators vert(MeshData v)
@@ -72,7 +78,9 @@ Shader "Unlit/Shader1"
                 Interpolators o;
                 o.vertex = UnityObjectToClipPos(v.vertex); // local space to clip space
                 o.normal = UnityObjectToWorldNormal(v.normals);
-                o.uv = v.uv0; //(v.uv0 + _Offset) * _Scale; // passthrough
+                o.uv = TRANSFORM_TEX(v.uv0, _MainTex);
+                o.uv2 = v.uv0;
+                //(v.uv0 + _Offset) * _Scale; // passthrough
                 return o;
             }
 
@@ -83,14 +91,20 @@ Shader "Unlit/Shader1"
 
             float4 frag(Interpolators i) : SV_Target
             {
-                float threshold = InverseLerp(0.2,0.8,_Health);
-                float3 clampedThreshold = clamp(threshold, 0, 1);
-                float3 blackOrWhite = i.uv.x < _Health;
+                // float threshold = InverseLerp(0.2,0.8,_Health);
+                // float3 clampedThreshold = clamp(threshold, 0, 1);
+                // float3 blackOrWhite = i.uv.x < _Health;
+                // clip(blackOrWhite - 0.00001f);
+                // float3 healthColor = lerp(float4(1, 0, 0, 0), float4(0, 1, 0, 0), clampedThreshold);
+                // float3 ret =  lerp(float4(0,0,0,0), healthColor, blackOrWhite);
+                // // clip(ret - 0.00001f);
+                // return float4(ret,1);
+                float threshold = InverseLerp(0.2, 0.8, _Health);
+                float4 clampedThreshold = clamp(threshold, 0, 1);
+                float4 blackOrWhite = i.uv2.x < _Health;
                 clip(blackOrWhite - 0.00001f);
-                float3 healthColor = lerp(float4(1, 0, 0, 0), float4(0, 1, 0, 0), clampedThreshold);
-                float3 ret =  lerp(float4(0,0,0,0), healthColor, blackOrWhite);
-                // clip(ret - 0.00001f);
-                return float4(ret,1);
+                float4 textureColor = tex2D(_MainTex, i.uv);
+                return lerp(float4(0, 0, 0, 0), textureColor, blackOrWhite);
             }
             ENDCG
         }
