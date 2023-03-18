@@ -82,8 +82,10 @@ Shader "Unlit/Shader1"
 
             float4 frag(Interpolators i) : SV_Target
             {
+                float threshold = InverseLerp(0.2,0.8,_Health);
+                float4 clampedThreshold = clamp(threshold, 0, 1);
                 float4 blackOrWhite = i.uv.x < _Health;
-                float4 healthColor = lerp(float4(1, 0, 0, 0), float4(0, 1, 0, 0), _Health);
+                float4 healthColor = lerp(float4(1, 0, 0, 0), float4(0, 1, 0, 0), clampedThreshold);
                 return lerp(float4(0,0,0,0), healthColor, blackOrWhite);
             }
             ENDCG
