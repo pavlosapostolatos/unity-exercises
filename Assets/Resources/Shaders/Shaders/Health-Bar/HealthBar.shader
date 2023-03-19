@@ -108,10 +108,11 @@ Shader "Unlit/HealthBar"
                 //take length point (x,0) with (x,0.5)
                 //clamp makes sure (0,0) gets measured with (0.5,0,5) instead of (0,0.5) to account for the rounded edge area
 
-                float dist = distance(uniformUVcoordinates, centerLinePoint) * 2;
+                float distanceToCenterLineMask = distance(uniformUVcoordinates, centerLinePoint) * 2;
 
-                float4 distanceToCenterLineMask = dist < 1; //black or white
-                clip(distanceToCenterLineMask - 0.00001f);
+                float4 distanceMask = distanceToCenterLineMask < 1; //black or white
+                clip(distanceMask - 0.00001f);
+                if(distanceToCenterLineMask>0.9) return 0;
 
                 float threshold = InverseLerp(0.2, 0.8, _Health);
                 float4 clampedThreshold = clamp(threshold, 0, 1);
