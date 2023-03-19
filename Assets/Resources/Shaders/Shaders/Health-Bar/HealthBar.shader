@@ -112,7 +112,7 @@ Shader "Unlit/HealthBar"
 
                 float4 distanceMask = distanceToCenterLineMask < 1; //black or white
                 clip(distanceMask - 0.00001f);
-                if(distanceToCenterLineMask>0.9) return 0;
+                // if(distanceToCenterLineMask>0.9) return 0;
 
                 float threshold = InverseLerp(0.2, 0.8, _Health);
                 float4 clampedThreshold = clamp(threshold, 0, 1);
@@ -127,7 +127,7 @@ Shader "Unlit/HealthBar"
                     float flash = abs(cos(_Time.y)) * 2 + 0.5;
                     textureColor *= flash;
                 }
-                return lerp(float4(0, 0, 0, 0), textureColor, healthBarMask);
+                return lerp(float4(0, 0, 0, 0), textureColor, healthBarMask *( distanceToCenterLineMask < 0.9));
             }
             ENDCG
         }
