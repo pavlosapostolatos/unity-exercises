@@ -99,20 +99,34 @@ Shader "Unlit/HealthBar"
                 // float3 ret =  lerp(float4(0,0,0,0), healthColor, blackOrWhite);
                 // // clip(ret - 0.00001f);
                 // return float4(ret,1);
+
+                float4 uniformUVcoordinates = float4(i.uv2, 0, 0);
+                uniformUVcoordinates.x *= 8;
+                //adjust the scaling of for the scaling of because horizontal distance is 8 times the vertical distance. make them euqal
+
+                float4 centerLinePoint = float4(clamp(uniformUVcoordinates.x, 0.5, 7.5), 0.5, 0, 0);
+                //take length point (x,0) with (x,0.5)
+                //clamp makes sure (0,0) gets measured with (0.5,0,5) instead of (0,0.5) to account for the rounded edge area
+
+                float dist = distance(uniformUVcoordinates, centerLinePoint) * 2;
+
+                float4 distanceToCenterLineMask = dist < 1; //black or white
+                clip(distanceToCenterLineMask - 0.00001f);
+
                 float threshold = InverseLerp(0.2, 0.8, _Health);
                 float4 clampedThreshold = clamp(threshold, 0, 1);
-                float4 blackOrWhite = i.uv2.x < _Health;
-                clip(blackOrWhite - 0.00001f);
+                float4 healthBarMask = i.uv2.x < _Health; //black or white
+                clip(healthBarMask - 0.00001f);
                 float4 healthbarTextureColorCoordinate = lerp(float4(0, 0, 0, 0), float4(1, 0, 0, 0), _Health);
                 healthbarTextureColorCoordinate.y = i.uv2.y; //keep glossiness
                 float4 textureColor = tex2D(_MainTex, healthbarTextureColorCoordinate);
                 textureColor = tex2D(_MainTex, float2(_Health, i.uv2.y)); //easier
-                if(_Health < 0.2f)
+                if (_Health < 0.2f)
                 {
                     float flash = abs(cos(_Time.y)) * 2 + 0.5;
                     textureColor *= flash;
                 }
-                return lerp(float4(0, 0, 0, 0), textureColor, blackOrWhite);
+                return lerp(float4(0, 0, 0, 0), textureColor, healthBarMask);
             }
             ENDCG
         }
