@@ -19,7 +19,7 @@ public class WorldLocal : MonoBehaviour
         Gizmos.DrawSphere(LocalTf, 1.0f);
     }
 
-    private Vector2 LocalToWorld(Vector2 localTf)
+    public Vector2 LocalToWorld(Vector2 localTf)
     {
         System.Console.WriteLine(localTf);
         Debug.Log(localTf);
@@ -29,7 +29,7 @@ public class WorldLocal : MonoBehaviour
         return position;
     }
 
-    private Vector2 WorldToLocal(Vector2 world)
+    public Vector2 WorldToLocal(Vector2 world)
     {
         Vector2 rel = world - (Vector2)transform.position;
         Debug.Log(rel);

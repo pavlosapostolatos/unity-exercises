@@ -2,8 +2,7 @@
     "name": "Scripts",
     "rootNamespace": "",
     "references": [],
-    "includePlatforms": [],
-    "excludePlatforms": [
+    "includePlatforms": [
         "Editor",
         "WindowsStandalone64"
     ],
